@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPT_HOME=$PWD
+SCRIPT_HOME=${PWD}
 TARGET_HOME=/home/hadoopuser/
 
 ssh-keygen -t rsa -P "" -f /home/hadoopuser/.ssh/id_rsa
@@ -24,5 +24,6 @@ sed '/YARN configuration properties/r $SCRIPT_HOME/yarn-site.txt' $TARGET_HOME/h
 
 # for master node only
 echo $SCRIPT_HOME/slaves > $TARGET_HOME/hadoop/etc/hadoop/slaves
-
+hdfs namenode -format
+./home/hadoopuser/hadoop/sbin/start-dfs.sh
 # end
