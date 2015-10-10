@@ -4,12 +4,7 @@ sudo apt-get install oracle-java8-installer ssh
 sudo update-java-alternatives -s java-8-oracle
 sudo ./disable_ipv6.sh
 
-# Set HADOOP_HOME
-export HADOOP_HOME=/home/hadoopuser/hadoop
-# Set JAVA_HOME
-export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-# Add Hadoop bin and sbin directory to PATH
-export PATH=$PATH:$HADOOP_HOME/bin;$HADOOP_HOME/sbin
+echo env.txt >> ~/.bashrc 
 
 # Create hadoopgroup
 sudo addgroup hadoopgroup
