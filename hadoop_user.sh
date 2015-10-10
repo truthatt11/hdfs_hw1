@@ -2,18 +2,21 @@
 SCRIPT_HOME=${PWD}
 TARGET_HOME=/home/hadoopuser/
 
-ssh-keygen -t rsa -P "" -f /home/hadoopuser/.ssh/id_rsa
-
-cat /home/hadoopuser/.ssh/id_rsa.pub >> /home/hadoopuser/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
+if ! [ -f /home/hadoopuser/.ssh/id_rsa ]; then
+  ssh-keygen -t rsa -P "" -f /home/hadoopuser/.ssh/id_rsa
+  cat /home/hadoopuser/.ssh/id_rsa.pub >> /home/hadoopuser/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
+fi
 ssh-copy-id -i ~/.ssh/id_rsa.pub slave
 ssh slave
-echo env.txt >> ~/.bashrc
+cat env.txt >> ~/.bashrc
 
 cd ~
-wget http://ftp.twaren.net/Unix/Web/apache/hadoop/common/hadoop-2.6.1/hadoop-2.6.1.tar.gz
-tar xf hadoop-2.6.1.tar.gz
-mv hadoop-2.6.1 hadoop
+if ! [ -d hadoop ]; then
+    wget http://ftp.twaren.net/Unix/Web/apache/hadoop/common/hadoop-2.6.1/hadoop-2.6.1.tar.gz
+    tar xf hadoop-2.6.1.tar.gz
+    mv hadoop-2.6.1 hadoop
+fi
 
 sed '/<configuration>/r $SCRIPT_HOME/core-site.txt' $TARGET_HOME/hadoop/etc/hadoop/core-site.xml > $TARGET_HOME/hadoop/etc/hadoop/core-site.xml
 # for master node only

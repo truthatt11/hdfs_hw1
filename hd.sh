@@ -4,7 +4,7 @@ sudo apt-get install oracle-java8-installer ssh
 sudo update-java-alternatives -s java-8-oracle
 sudo ./disable_ipv6.sh
 
-echo env.txt >> ~/.bashrc 
+cat env.txt >> ~/.bashrc 
 
 # Create hadoopgroup
 sudo addgroup hadoopgroup
@@ -12,5 +12,5 @@ sudo addgroup hadoopgroup
 sudo adduser -ingroup hadoopgroup hadoopuser --disabled-password --gecos ""
 sudo su hadoopuser -c ./hadoop_user.sh
 
-./home/hadoopuser/hadoop/sbin/start-yarn.sh
+/home/hadoopuser/hadoop/sbin/start-yarn.sh
 

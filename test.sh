@@ -1,3 +1,9 @@
 #!/bin/bash
 HOME=$PWD
-echo $HOME
+if ! [ -e hd ]; then
+  echo $HOME
+fi
+
+if [ -e hd.sh ]; then
+  echo "hi"
+fi
