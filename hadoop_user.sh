@@ -27,3 +27,5 @@ echo $SCRIPT_HOME/slaves > $TARGET_HOME/hadoop/etc/hadoop/slaves
 hdfs namenode -format
 ./home/hadoopuser/hadoop/sbin/start-dfs.sh
 # end
+
+jps

@@ -12,5 +12,5 @@ sudo addgroup hadoopgroup
 sudo adduser -ingroup hadoopgroup hadoopuser --disabled-password --gecos ""
 sudo su hadoopuser -c ./hadoop_user.sh
 
-
+./home/hadoopuser/hadoop/sbin/start-yarn.sh
 
