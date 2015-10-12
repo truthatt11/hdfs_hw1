@@ -4,7 +4,7 @@ TARGET_HOME=/home/hadoopuser/
 
 if ! [ -f /home/hadoopuser/.ssh/id_rsa ]; then
   ssh-keygen -t rsa -P "" -f /home/hadoopuser/.ssh/id_rsa
-  cat /home/hadoopuser/.ssh/id_rsa.pub >> /home/hadoopuser/.ssh/authorized_keys
+  cat /home/hadoopuser/.ssh/id_rsa.pub > /home/hadoopuser/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
 fi
 ssh-copy-id -i ~/.ssh/id_rsa.pub slave
