@@ -2,10 +2,12 @@
 SCRIPT_HOME=${PWD}
 TARGET_HOME=/home/hadoopuser/
 
-if ! [ -f /home/hadoopuser/.ssh/id_rsa ]; then
-  ssh-keygen -t rsa -P "" -f /home/hadoopuser/.ssh/id_rsa
-  cat /home/hadoopuser/.ssh/id_rsa.pub > /home/hadoopuser/.ssh/authorized_keys
-  chmod 600 ~/.ssh/authorized_keys
+if ! [ -f /home/hadoopuser/.ssh/id_rsa ] ; then
+  if [ "$1" == "master" ] || [ "$1" == "Master" ] ; then
+    ssh-keygen -t rsa -P "" -f /home/hadoopuser/.ssh/id_rsa
+    cat /home/hadoopuser/.ssh/id_rsa.pub > /home/hadoopuser/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
+  fi
 fi
 ssh-copy-id -i ~/.ssh/id_rsa.pub slave
 ssh slave
