@@ -1,6 +1,9 @@
 #!/bin/bash
 SCRIPT_HOME=${PWD}
-TARGET_HOME=/home/hadoopuser/
+TARGET_HOME=/home/hadoopuser/hadoop/etc/hadoop
+
+echo $SCRIPT_HOME
+echo $TARGET_HOME
 
 if ! [ -f /home/hadoopuser/.ssh/id_rsa ] ; then
   if [ "$1" == "master" ] || [ "$1" == "Master" ] ; then
@@ -20,22 +23,22 @@ if ! [ -d hadoop ]; then
     mv hadoop-2.6.1 hadoop
 fi
 
-sed '/<configuration>/r $SCRIPT_HOME/core-site.txt' $TARGET_HOME/hadoop/etc/hadoop/core-site.xml > $TARGET_HOME/hadoop/etc/hadoop/core-site.xml
+sed '/<configuration>/r $SCRIPT_HOME/core-site.txt' $TARGET_HOME/core-site.xml > $TARGET_HOME/core-site.xml
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
-    sed '/<configuration>/r $SCRIPT_HOME/mapred-site.txt' $TARGET_HOME/hadoop/etc/hadoop/mapred-site.xml.template > $TARGET_HOME/hadoop/etc/hadoop/mapred-site.xml
+    sed '/<configuration>/r $SCRIPT_HOME/mapred-site.txt' $TARGET_HOME/mapred-site.xml.template > $TARGET_HOME/mapred-site.xml
 fi
 # end here
-sed '/<configuration>/r $SCRIPT_HOME/hdfs-site.txt' $TARGET_HOME/hadoop/etc/hadoop/hdfs-site.xml > $TARGET_HOME/hadoop/etc/hadoop/hdfs-site.xml
-sed '/YARN configuration properties/r $SCRIPT_HOME/yarn-site.txt' $TARGET_HOME/hadoop/etc/hadoop/yarn-site.xml > $TARGET_HOME/hadoop/etc/hadoop/yarn-site.xml
+sed '/<configuration>/r $SCRIPT_HOME/hdfs-site.txt' $TARGET_HOME/hdfs-site.xml > $TARGET_HOME/hdfs-site.xml
+sed '/YARN configuration properties/r $SCRIPT_HOME/yarn-site.txt' $TARGET_HOME/yarn-site.xml > $TARGET_HOME/yarn-site.xml
 
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
-    echo $SCRIPT_HOME/slaves > $TARGET_HOME/hadoop/etc/hadoop/slaves
+    echo $SCRIPT_HOME/slaves > $TARGET_HOME/slaves
     hdfs namenode -format
     ./home/hadoopuser/hadoop/sbin/start-dfs.sh
 fi
 # end
 
-jps
 /home/hadoopuser/hadoop/sbin/start-yarn.sh
+jps
