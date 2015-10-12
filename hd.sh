@@ -11,5 +11,5 @@ cat env.txt >> ~/.bashrc
 sudo addgroup hadoopgroup
 # Create hadoopuser user
 sudo adduser -ingroup hadoopgroup hadoopuser --disabled-password --gecos ""
-sudo su hadoopuser -c ./hadoop_user.sh
+sudo su hadoopuser -c ./hadoop_user.sh $1
 
