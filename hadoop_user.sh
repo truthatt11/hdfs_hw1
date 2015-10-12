@@ -32,3 +32,4 @@ hdfs namenode -format
 # end
 
 jps
+/home/hadoopuser/hadoop/sbin/start-yarn.sh
