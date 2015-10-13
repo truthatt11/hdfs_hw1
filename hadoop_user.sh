@@ -27,31 +27,32 @@ fi
 sed -i 's/JAVA_HOME=${JAVA_HOME}/JAVA_HOME=\"\/usr\/lib\/jvm\/java-8-oracle\"/' $TARGET_HOME/hadoop-env.sh
 
 if ! [ -f $TARGET_HOME/core-site.xml.backup ] ; then
-    mv $TARGET_HOME/core-site.xml $TARGET_HOME/core-site.xml.backup
+   cp $TARGET_HOME/core-site.xml $TARGET_HOME/core-site.xml.backup
     sed "/<configuration>/r $SCRIPT_HOME/core-site.txt" $TARGET_HOME/core-site.xml.backup > $TARGET_HOME/core-site.xml
 fi
 
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
+    echo "WTH"
     sed "/<configuration>/r $SCRIPT_HOME/mapred-site.txt" $TARGET_HOME/mapred-site.xml.template > $TARGET_HOME/mapred-site.xml
 fi
 # end here
 
 if ! [ -f $TARGET_HOME/hdfs-site.xml.backup ] ; then
-    mv $TARGET_HOME/hdfs-site.xml $TARGET_HOME/hdfs-site.xml.backup
+    cp $TARGET_HOME/hdfs-site.xml $TARGET_HOME/hdfs-site.xml.backup
     sed "/<configuration>/r $SCRIPT_HOME/hdfs-site.txt" $TARGET_HOME/hdfs-site.xml.backup > $TARGET_HOME/hdfs-site.xml
 fi
 
 if ! [ -f $TARGET_HOME/yarn-site.xml.backup ] ; then
-    mv $TARGET_HOME/yarn-site.xml $TARGET_HOME/yarn-site.xml.backup
+    cp $TARGET_HOME/yarn-site.xml $TARGET_HOME/yarn-site.xml.backup
     sed "/YARN configuration properties/r $SCRIPT_HOME/yarn-site.txt" $TARGET_HOME/yarn-site.xml.backup > $TARGET_HOME/yarn-site.xml
 fi
 
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
-    echo $SCRIPT_HOME/slaves > $TARGET_HOME/slaves
+    cp $SCRIPT_HOME/slaves $TARGET_HOME/slaves
     hdfs namenode -format
-    ./home/hadoopuser/hadoop/sbin/start-dfs.sh
+    /home/hadoopuser/hadoop/sbin/start-dfs.sh
 fi
 # end
 
