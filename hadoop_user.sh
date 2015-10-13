@@ -14,6 +14,7 @@ if ! [ -f /home/hadoopuser/.ssh/id_rsa ] ; then
     ssh slave
   fi
 fi
+
 cat env.txt >> ~/.bashrc
 
 cd ~
@@ -23,17 +24,28 @@ if ! [ -d hadoop ]; then
     mv hadoop-2.6.1 hadoop
 fi
 
-mv $TARGET_HOME/core-site.xml $TARGET_HOME/core-site.xml.backup
-sed "/<configuration>/r $SCRIPT_HOME/core-site.txt" $TARGET_HOME/core-site.xml.backup > $TARGET_HOME/core-site.xml
+sed -i 's/JAVA_HOME=${JAVA_HOME}/JAVA_HOME=\"\/usr\/lib\/jvm\/java-8-oracle\"/' $TARGET_HOME/hadoop-env.sh
+
+if ! [ -f $TARGET_HOME/core-site.xml.backup ] ; then
+    mv $TARGET_HOME/core-site.xml $TARGET_HOME/core-site.xml.backup
+    sed "/<configuration>/r $SCRIPT_HOME/core-site.txt" $TARGET_HOME/core-site.xml.backup > $TARGET_HOME/core-site.xml
+fi
+
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
     sed "/<configuration>/r $SCRIPT_HOME/mapred-site.txt" $TARGET_HOME/mapred-site.xml.template > $TARGET_HOME/mapred-site.xml
 fi
 # end here
-mv $TARGET_HOME/hdfs-site.xml $TARGET_HOME/hdfs-site.xml.backup
-mv $TARGET_HOME/yarn-site.xml $TARGET_HOME/yarn-site.xml.backup
-sed "/<configuration>/r $SCRIPT_HOME/hdfs-site.txt" $TARGET_HOME/hdfs-site.xml.backup > $TARGET_HOME/hdfs-site.xml
-sed "/YARN configuration properties/r $SCRIPT_HOME/yarn-site.txt" $TARGET_HOME/yarn-site.xml.backup > $TARGET_HOME/yarn-site.xml
+
+if ! [ -f $TARGET_HOME/hdfs-site.xml.backup ] ; then
+    mv $TARGET_HOME/hdfs-site.xml $TARGET_HOME/hdfs-site.xml.backup
+    sed "/<configuration>/r $SCRIPT_HOME/hdfs-site.txt" $TARGET_HOME/hdfs-site.xml.backup > $TARGET_HOME/hdfs-site.xml
+fi
+
+if ! [ -f $TARGET_HOME/yarn-site.xml.backup ] ; then
+    mv $TARGET_HOME/yarn-site.xml $TARGET_HOME/yarn-site.xml.backup
+    sed "/YARN configuration properties/r $SCRIPT_HOME/yarn-site.txt" $TARGET_HOME/yarn-site.xml.backup > $TARGET_HOME/yarn-site.xml
+fi
 
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
