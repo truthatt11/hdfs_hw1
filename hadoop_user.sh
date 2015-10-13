@@ -33,7 +33,6 @@ fi
 
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
-    echo "WTH"
     sed "/<configuration>/r $SCRIPT_HOME/mapred-site.txt" $TARGET_HOME/mapred-site.xml.template > $TARGET_HOME/mapred-site.xml
 fi
 # end here
@@ -51,7 +50,7 @@ fi
 # for master node only
 if [ "$1" == "master" ] || [ "$1" == "Master" ]; then
     cp $SCRIPT_HOME/slaves $TARGET_HOME/slaves
-    hdfs namenode -format
+    /home/hadoopuser/hadoop/bin/hdfs namenode -format
     /home/hadoopuser/hadoop/sbin/start-dfs.sh
 fi
 # end

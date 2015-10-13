@@ -8,12 +8,9 @@ TARGET_HOME=/home/hadoopuser/hadoop/etc/hadoop
 #sed -i "/<configuration>/r $SCRIPT_HOME/mapred-site.txt" mapred-site.xml
 #sed 's/JAVA_HOME=${JAVA_HOME}/JAVA_HOME=\"\/usr\/lib\/jvm\/java-8-oracle\"/' a.txt > b.txt
 
-echo $SCRIPT_HOME
-echo $TARGET_HOME
-
-sed "/<configuration>/r $SCRIPT_HOME/mapred-site.txt" $TARGET_HOME/mapred-site.xml.template > $TARGET_HOME/mapred-site.xml
-
-if [ "$1" == "master" ] || [ "$1" == "Master" ] ; then
-  echo "parameter 1 is $1"
-  ./test2.sh $1
+content=$(cat ~/.bashrc | grep -f env.txt)
+echo "$content"
+if [[ -z "$content" ]]; then
+    cat env.txt >> ~/.bashrc 
 fi
+
