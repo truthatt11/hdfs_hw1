@@ -15,6 +15,15 @@ fi
 sudo addgroup hadoopgroup
 # Create hadoopuser user
 sudo adduser -ingroup hadoopgroup hadoopuser --disabled-password --gecos ""
+
+sudo mkdir /hadoop-data
+sudo mkdir /hadoop-data/hadoopuser
+sudo mkdir /hadoop-data/hadoopuser/hdfs
+sudo mkdir /hadoop-data/hadoopuser/hdfs/namenode
+sudo mkdir /hadoop-data/hadoopuser/hdfs/datanode
+
+sudo chown -R hadoopuser:hadoopgroup /hadoop-data
+
 echo Running Hadoop Configuration
 sudo su hadoopuser -c "./hadoop_user.sh $1"
 echo Hadoop configuration done
